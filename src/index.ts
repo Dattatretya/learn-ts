@@ -1,0 +1,53 @@
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import http from 'http';
+import compression from 'compression';
+import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import router from './router/index.js';
+
+dotenv.config();
+
+
+const app = express();
+const PORT = process.env.PORT
+
+app.use(cors({
+    credentials: true,
+}));
+
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(compression());
+
+app.use("/", router())
+
+
+const server = http.createServer(app);
+
+async function dbConnect () {
+    try{
+    const connect = await mongoose.connect(process.env.MONGOURL || '');
+    console.log('Connected to MongoDB:', connect.connection.host);
+    }
+    catch(err){
+        console.error('Error connecting to MongoDB:', err);
+    }
+}
+
+// mongoose.connect(process.env.MONGOURL)
+//     .then(() => {
+//         console.log('Connected to MongoDB');
+//     })
+//     .catch((err) => {
+//         console.error('Error connecting to MongoDB:', err);
+//     });
+
+// mongoose.connection.on('error', (err: Error)=> console.log('MongoDB connection error:', err));
+
+server.listen(PORT, async () => {
+    dbConnect();
+    console.log(`Server is running on http://localhost:${PORT}`);
+})
