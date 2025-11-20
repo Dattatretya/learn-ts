@@ -37,16 +37,6 @@ async function dbConnect () {
     }
 }
 
-// mongoose.connect(process.env.MONGOURL)
-//     .then(() => {
-//         console.log('Connected to MongoDB');
-//     })
-//     .catch((err) => {
-//         console.error('Error connecting to MongoDB:', err);
-//     });
-
-// mongoose.connection.on('error', (err: Error)=> console.log('MongoDB connection error:', err));
-
 server.listen(PORT, async () => {
     dbConnect();
     console.log(`Server is running on http://localhost:${PORT}`);
