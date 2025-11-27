@@ -1,6 +1,7 @@
 import { createUser, getUserByEmail } from "db/users.js";
 import express from "express"
 import { authentication, random } from "helpers/index.js";
+import { logger } from "utils/logger.js";
 
 export const register = async (req : express.Request, res: express.Response) => {
     try{
@@ -32,9 +33,18 @@ export const register = async (req : express.Request, res: express.Response) => 
         })
     }
     catch(error){
-        console.log(error)
+        logger.error('Error in register endpoint', error, { email: req.body.email, username: req.body.username });
         return res.status(400).send({
             error: error
         })
+    }
+}
+
+export const login = async (req: express.Request, res: express.Response) => {
+    try{
+
+    }
+    catch(error){
+        logger.error('Error in login endpoint', error);
     }
 }

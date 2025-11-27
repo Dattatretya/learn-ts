@@ -23,6 +23,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@aws-sdk/client-cloudwatch-logs": "^3.940.0",
     "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",

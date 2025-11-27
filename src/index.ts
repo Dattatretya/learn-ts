@@ -6,6 +6,7 @@ import compression from 'compression';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import router from './router/index.js';
+import { logger } from './utils/logger.js';
 
 dotenv.config();
 
@@ -30,14 +31,14 @@ const server = http.createServer(app);
 async function dbConnect () {
     try{
     const connect = await mongoose.connect(process.env.MONGOURL || '');
-    console.log('Connected to MongoDB:', connect.connection.host);
+    logger.info('Connected to MongoDB', { host: connect.connection.host });
     }
     catch(err){
-        console.error('Error connecting to MongoDB:', err);
+        logger.error('Error connecting to MongoDB', err);
     }
 }
 
 server.listen(PORT, async () => {
     dbConnect();
-    console.log(`Server is running on http://localhost:${PORT}`);
+    logger.info(`Server is running on http://localhost:${PORT}`, { port: PORT });
 })
